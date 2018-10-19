@@ -3,6 +3,7 @@
 #include "Symbole.h"
 #include "SymboleValue.h"
 #include "Exceptions.h"
+#include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
 // NoeudSeqInst
@@ -71,13 +72,31 @@ int NoeudOperateurBinaire::executer() {
 // NoeudInstSi
 ////////////////////////////////////////////////////////////////////////////////
 
-NoeudInstSi::NoeudInstSi(Noeud* condition, Noeud* sequence)
-: m_condition(condition), m_sequence(sequence) {
-}
+NoeudInstSiRiche::NoeudInstSiRiche(std::vector<Noeud*> noeuds, std::vector<Noeud*> nSinon)
+: m_noeuds(noeuds), m_nSinon(nSinon) {}
 
-int NoeudInstSi::executer() {
-  if (m_condition->executer()) m_sequence->executer();
-  return 0; // La valeur renvoyée ne représente rien !
+int NoeudInstSiRiche::executer() {
+    // Le vecteur est composé de : condition->séquence->condition->séquence.....
+    // Donc m_noeuds(0) est la condition 1
+    // et   m_noeuds(1) est la séquence 1
+    // et   m_noeuds(2) est la condition 2
+    // et   m_noeuds(3) est la séquence 2
+    Noeud* p;
+    bool fini = false;
+    
+    //On parcourt le vecteur de condition en condition (d'où i = i+2)
+    for(int i = 0 ; i<m_noeuds.size()-1 && !fini ; i=i+2){
+        if(m_noeuds.at(i)->executer()){ // si la condition est vraie
+            m_noeuds.at(i+1)->executer();// alors on execute la séquence
+            fini = true; // on sort de la boucle car une séquence à été exécuter
+        }
+    }
+    
+    if (m_nSinon.size()>0 && !fini){ // si il y a un sinon et qu'aucune séquence n'a été exécutée
+        m_nSinon.at(0)->executer(); // on exécute la séquence du sinon
+    }
+    
+return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
