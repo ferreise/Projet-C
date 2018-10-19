@@ -9,10 +9,15 @@
         <group>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Interpreteur.h</file>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Interpreteur.cpp</file>
+            <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Lecteur.h</file>
+            <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Lecteur.cpp</file>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/main.cpp</file>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/ArbreAbstrait.h</file>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/ArbreAbstrait.cpp</file>
+            <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Symbole.cpp</file>
+            <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/motsCles.txt</file>
             <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/programme.txt</file>
+            <file>file:/users/info/etu-s3/ferreise/M3105%20-%20C++/M3105-TP05/Symbole.h</file>
         </group>
     </open-files>
 </project-private>
