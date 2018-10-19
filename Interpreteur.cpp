@@ -73,7 +73,7 @@ Noeud* Interpreteur::inst() {
     return affect;
   }
   else if (m_lecteur.getSymbole() == "si")
-    return instSi();
+    return instSiRiche();
   // Compléter les alternatives chaque fois qu'on rajoute une nouvelle instruction
   else if (m_lecteur.getSymbole() == "tantque")
       return instTantQue();
@@ -133,16 +133,40 @@ Noeud* Interpreteur::facteur() {
   return fact;
 }
 
-Noeud* Interpreteur::instSi() {
-  // <instSi> ::= si ( <expression> ) <seqInst> finsi
+Noeud* Interpreteur::instSiRiche() {
+  // <instSiRiche> ::= si(<expression>) <seqInst> { sinonsi(<expression>) <seqInst> }[sinon <seqInst>] finsi
+  vector<Noeud*> noeuds;
+  vector<Noeud*> nSinon;
+    
   testerEtAvancer("si");
   testerEtAvancer("(");
-  Noeud* condition = expression(); // On mémorise la condition
+  Noeud* cond_si = expression();      // On mémorise la première condition
+  noeuds.push_back(cond_si);      // que l'on insère dans le vecteur
   testerEtAvancer(")");
-  Noeud* sequence = seqInst();     // On mémorise la séquence d'instruction
+  Noeud* seq_si = seqInst();          // Puis on mémorise sa séquence d'instruction
+  noeuds.push_back(seq_si);       // que l'on insère dans le vecteur
+
+  while (m_lecteur.getSymbole() == "sinonsi"){
+      testerEtAvancer("sinonsi");
+      testerEtAvancer("(");
+      Noeud* cond_sinonSi = expression();   // On mémorise la condition sinon si
+      noeuds.push_back(cond_sinonSi);   // que l'on insère dans le vecteur
+      testerEtAvancer(")");
+      Noeud* seq_sinonSi = seqInst();       // Puis on mémorise sa sequence d'instruction
+      noeuds.push_back(seq_sinonSi);    // que l'on insère dans le vecteur
+  }
+  // Il peut y avoir 0 ou plusieurs SINON, d'où l'utilisation d'un vecteur
+  if (m_lecteur.getSymbole()=="sinon"){
+        testerEtAvancer("sinon");       
+        Noeud* seq_sinon = seqInst();   // Pas de condition, directement sequence d'instruction
+        nSinon.push_back(seq_sinon);
+  }
+  
   testerEtAvancer("finsi");
-  return new NoeudInstSi(condition, sequence); // Et on renvoie un noeud Instruction Si
-}
+  return new NoeudInstSiRiche(noeuds,nSinon); // Et on renvoie un noeud Instruction Si Riche
+  }
+
+
 
 Noeud* Interpreteur::instTantQue() {
     // <instTantQue> ::=tantque( <expression> ) <seqInst> fintantque}
