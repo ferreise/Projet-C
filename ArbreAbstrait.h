@@ -68,16 +68,18 @@ class NoeudOperateurBinaire : public Noeud {
 
 ////////////////////////////////////////////////////////////////////////////////
 class NoeudInstSiRiche : public Noeud {
-// Classe pour représenter un noeud "instruction si"
-//  et ses 2 fils : la condition du si et la séquence d'instruction associée
+// Classe pour représenter un noeud "instruction si riche"
+//  et ses 2 fils : -> un vecteur de noeuds contenant condition...séquence...condition...séquence......
+//                  -> un vecteur contenant le "Sinon"
   public:
-    NoeudInstSiRiche(std::vector<Noeud*> v_noeud, std::vector<Noeud*> v_noeudSinon);
+    NoeudInstSiRiche(std::vector<Noeud*> noeuds, std::vector<Noeud*> nSinon);
      // Construit une "instruction si" avec sa condition et sa séquence d'instruction
    ~NoeudInstSiRiche() {} // A cause du destructeur virtuel de la classe Noeud
     int executer();  // Exécute l'instruction si : si condition vraie on exécute la séquence
 
   private:
-    Noeud*  v_noeud,v_noeudSinon;
+    std::vector<Noeud*> m_noeuds;
+    std::vector<Noeud*> m_nSinon;
 };
 
 class NoeudInstTantQue : public Noeud {
