@@ -147,8 +147,3 @@ int NoeudInstPour::executer(){
     NoeudInstTantQue::executer();
     return 0; // La valeur renvoyée ne représente rien !
 }
-
-for (i = 0 ; i < 10 ; i ++){
-    sequence
-    dinstructions
-}
