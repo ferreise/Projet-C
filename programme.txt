@@ -8,7 +8,3 @@ procedure principale()
 finproc
 # Commentaire Final
 
-coucou
-c'est margaux
-coucou
-c'est seb
