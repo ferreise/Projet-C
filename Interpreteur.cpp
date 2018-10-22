@@ -189,3 +189,18 @@ Noeud* Interpreteur::instRepeter() {
     testerEtAvancer(")");
     return new NoeudInstRepeter(sequence, condition); // Et on renvoie un noeud Instruction Repeter
 }
+
+Noeud* Interpreteur::instPour(){
+    // <instPour> ::= pour([ <affectation> ] ; <expression> [ <affectation> ]) <seqInst> finpour
+    testerEtAvancer("pour");
+    testerEtAvancer("(");
+    Noeud* affectation1 = affectation(); // On mémorise la première affectation
+    testerEtAvancer(";");
+    Noeud* condition = expression();    // On mémorise la condition
+    testerEtAvancer(";");
+    Noeud* affectation2 = affectation(); // On mémorise la deuxième affectation
+    testerEtAvancer(")");
+    Noeud* sequence = seqInst();        // On mémorise la séquence d'instruction
+    testerEtAvancer("finpour");
+    return new NoeudInstPour(affectation1,condition,affectation2,sequence); // Et on renvoie un noeud Instruction Pour
+}

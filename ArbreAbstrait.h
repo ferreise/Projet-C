@@ -82,9 +82,11 @@ class NoeudInstSiRiche : public Noeud {
     std::vector<Noeud*> m_nSinon;
 };
 
+
 class NoeudInstTantQue : public Noeud {
 // Classe pour représenter un noeud "instruction tantque"
-//  et ses 2 fils : la condition du tantque et la séquence d'instruction associée
+//  et ses 2 fils : -> la condition du tantque
+//                  -> la séquence d'instruction associée
 public :
     NoeudInstTantQue(Noeud* condition, Noeud* sequence);
     // Construit une "instruction tantque" avec sa condition et sa séquence d'instruction
@@ -96,17 +98,39 @@ public :
     Noeud*  m_sequence;
 };
 
+
 class NoeudInstRepeter : public Noeud {
 // Classe pour représenter un noeud "instruction tantque"
-//  et ses 2 fils : la condition du tantque et la séquence d'instruction associée
+//  et ses 2 fils : -> la condition du repeter
+//                  -> la séquence d'instruction associée
 public :
     NoeudInstRepeter(Noeud* sequence, Noeud* condition);
-    // Construit une "instruction tantque" avec sa condition et sa séquence d'instruction
+    // Construit une "instruction repeter" avec sa condition et sa séquence d'instruction
     ~NoeudInstRepeter() {} // A cause du destructeur virtuel de la classe Noeud
-    int executer();  // Exécute l'instruction tantque : tant que condition vraie on exécute la séquence
+    int executer();  // Exécute l'instruction repeter : repeter la sequence d'instruction jusqua ce que la condition soit vérifiée
 
   private:
     Noeud*  m_condition;
+    Noeud*  m_sequence;
+};
+
+
+class NoeudInstPour : public Noeud {
+// Classe pour représenter un noeud "instruction pour"
+//  et ses 4 fils : -> la première affectation
+//                  -> la condition de fin de boucle
+//                  -> la deuxième affectation (incrémentation)
+//                  -> la séquence d'instruction associée
+public :
+    NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrémentation, Noeud* sequence);
+    // Construit une "instruction pour" avec ses affectations, sa condition de fin et sa séquence d'instruction
+    ~NoeudInstPour() {} // A cause du destructeur virtuel de la classe Noeud
+    int executer();  // Exécute l'instruction pour : pour une variable, respectant une condition, et étant modifiée à chaque boucle, executer la séquence
+
+  private:
+    Noeud*  m_affectation;
+    Noeud*  m_condition;
+    Noeud*  m_incrémentation;
     Noeud*  m_sequence;
 };
 

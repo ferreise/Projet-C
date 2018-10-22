@@ -4,6 +4,7 @@
 #include "SymboleValue.h"
 #include "Exceptions.h"
 #include <vector>
+#include <condition_variable>
 
 ////////////////////////////////////////////////////////////////////////////////
 // NoeudSeqInst
@@ -82,19 +83,21 @@ int NoeudInstSiRiche::executer() {
     // et   m_noeuds(1) est la séquence 1
     // et   m_noeuds(2) est la condition 2
     // et   m_noeuds(3) est la séquence 2
+    // etc....
+    
     Noeud* p;
     bool fini = false;
     
     //On parcourt le vecteur de condition en condition (d'où i = i+2)
     for(int i = 0 ; i<m_noeuds.size()-1 && !fini ; i=i+2){
-        if(m_noeuds.at(i)->executer()){ // si la condition est vraie
-            m_noeuds.at(i+1)->executer();// alors on execute la séquence
-            fini = true; // on sort de la boucle car une séquence à été exécuter
+        if(m_noeuds.at(i)->executer()){       // Si la condition est respectée,
+            m_noeuds.at(i+1)->executer();     // alors la séquence est executée
+            fini = true;                      // On sort de la boucle
         }
     }
     
-    if (m_nSinon.size()>0 && !fini){ // si il y a un sinon et qu'aucune séquence n'a été exécutée
-        m_nSinon.at(0)->executer(); // on exécute la séquence du sinon
+    if (m_nSinon.size()>0 && !fini){    // Si il y a un sinon et qu'aucune séquence n'a été exécutée
+        m_nSinon.at(0)->executer();     // alors on exécute la séquence du sinon
     }
     
 return 0;
@@ -105,8 +108,7 @@ return 0;
 ////////////////////////////////////////////////////////////////////////////////
 
 NoeudInstTantQue::NoeudInstTantQue(Noeud* condition, Noeud* sequence)
-: m_condition(condition), m_sequence(sequence) {
-}
+: m_condition(condition), m_sequence(sequence) {}
 
 int NoeudInstTantQue::executer() {
   while (m_condition->executer()) m_sequence->executer();
@@ -118,12 +120,35 @@ int NoeudInstTantQue::executer() {
 ////////////////////////////////////////////////////////////////////////////////
 
 NoeudInstRepeter::NoeudInstRepeter(Noeud* sequence, Noeud* condition)
-: m_sequence(sequence), m_condition(condition) {
-}
+: m_sequence(sequence), m_condition(condition) {}
 
 int NoeudInstRepeter::executer() {
   do 
       m_sequence->executer();
   while (m_condition->executer());
   return 0; // La valeur renvoyée ne représente rien !
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// NoeudInstPour
+////////////////////////////////////////////////////////////////////////////////
+
+NoeudInstPour::NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrémentation, Noeud* sequence)
+: m_affectation(affectation), m_condition(condition), m_incrémentation(incrémentation), m_sequence(sequence) {
+    if (m_incrémentation != nullptr) {              // Si l'incrémentation n'est pas nulle
+        m_sequence->ajoute(m_incrémentation);       // alors on l'ajoute à la séquence d'instruction
+    }            
+}
+
+int NoeudInstPour::executer(){
+    if (m_affectation != nullptr) {      // Si l'affectation n'est pas nulle
+        m_affectation->executer();       // alors on l'execute
+    }
+    NoeudInstTantQue::executer();
+    return 0; // La valeur renvoyée ne représente rien !
+}
+
+for (i = 0 ; i < 10 ; i ++){
+    sequence
+    dinstructions
 }
