@@ -7,8 +7,3 @@ procedure principale()
   jusqua (i > 4)
 finproc
 # Commentaire Final
-
-coucou
-c'est margaux
-coucou
-c'est seb
