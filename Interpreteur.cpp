@@ -59,7 +59,8 @@ Noeud* Interpreteur::seqInst() {
   } while (m_lecteur.getSymbole() == "<VARIABLE>" || 
           m_lecteur.getSymbole() == "si" || 
           m_lecteur.getSymbole() == "tantque" ||
-          m_lecteur.getSymbole() == "repeter");
+          m_lecteur.getSymbole() == "repeter" ||
+          m_lecteur.getSymbole() == "pour";
   // Tant que le symbole courant est un début possible d'instruction...
   // Il faut compléter cette condition chaque fois qu'on rajoute une nouvelle instruction
   return sequence;
@@ -79,6 +80,8 @@ Noeud* Interpreteur::inst() {
       return instTantQue();
   else if (m_lecteur.getSymbole() == "repeter")
       return instRepeter();
+  else if (m_lecteur.getSymbole() == "pour")
+      return instPour();
   else erreur("Instruction incorrecte");
 }
 
