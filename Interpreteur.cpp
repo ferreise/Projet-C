@@ -60,7 +60,7 @@ Noeud* Interpreteur::seqInst() {
           m_lecteur.getSymbole() == "si" || 
           m_lecteur.getSymbole() == "tantque" ||
           m_lecteur.getSymbole() == "repeter" ||
-          m_lecteur.getSymbole() == "pour";
+          m_lecteur.getSymbole() == "pour");
   // Tant que le symbole courant est un début possible d'instruction...
   // Il faut compléter cette condition chaque fois qu'on rajoute une nouvelle instruction
   return sequence;
