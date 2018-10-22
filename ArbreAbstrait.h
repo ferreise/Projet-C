@@ -115,23 +115,20 @@ public :
 };
 
 
-class NoeudInstPour : public Noeud {
+class NoeudInstPour : public NoeudInstTantQue { // La classe NoeudInstPour hérite de la classe NoeudInstTantQue
 // Classe pour représenter un noeud "instruction pour"
 //  et ses 4 fils : -> la première affectation
 //                  -> la condition de fin de boucle
 //                  -> la deuxième affectation (incrémentation)
 //                  -> la séquence d'instruction associée
 public :
-    NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrémentation, Noeud* sequence);
+    NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrementation, Noeud* sequence);
     // Construit une "instruction pour" avec ses affectations, sa condition de fin et sa séquence d'instruction
     ~NoeudInstPour() {} // A cause du destructeur virtuel de la classe Noeud
     int executer();  // Exécute l'instruction pour : pour une variable, respectant une condition, et étant modifiée à chaque boucle, executer la séquence
 
   private:
     Noeud*  m_affectation;
-    Noeud*  m_condition;
-    Noeud*  m_incrémentation;
-    Noeud*  m_sequence;
 };
 
 #endif /* ARBREABSTRAIT_H */

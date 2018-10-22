@@ -133,10 +133,10 @@ int NoeudInstRepeter::executer() {
 // NoeudInstPour
 ////////////////////////////////////////////////////////////////////////////////
 
-NoeudInstPour::NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrémentation, Noeud* sequence)
-: m_affectation(affectation), m_condition(condition), m_incrémentation(incrémentation), m_sequence(sequence) {
-    if (m_incrémentation != nullptr) {              // Si l'incrémentation n'est pas nulle
-        m_sequence->ajoute(m_incrémentation);       // alors on l'ajoute à la séquence d'instruction
+NoeudInstPour::NoeudInstPour(Noeud* affectation, Noeud* condition, Noeud* incrementation, Noeud* sequence)
+: m_affectation(affectation), NoeudInstTantQue(condition,sequence) {
+    if (incrementation != nullptr) {      // Si l'incrémentation n'est pas nulle
+        sequence->ajoute(incrementation); // alors on l'ajoute à la séquence d'instruction
     }            
 }
 
@@ -144,6 +144,6 @@ int NoeudInstPour::executer(){
     if (m_affectation != nullptr) {      // Si l'affectation n'est pas nulle
         m_affectation->executer();       // alors on l'execute
     }
-    NoeudInstTantQue::executer();
-    return 0; // La valeur renvoyée ne représente rien !
+    NoeudInstTantQue::executer();        //On réutilise notre Instruction TantQue
+    return 0;                            // La valeur renvoyée ne représente rien !
 }
