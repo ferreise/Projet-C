@@ -72,6 +72,7 @@ int NoeudOperateurBinaire::executer() {
 // NoeudInstSi
 ////////////////////////////////////////////////////////////////////////////////
 
+
 NoeudInstSiRiche::NoeudInstSiRiche(std::vector<Noeud*> noeuds, std::vector<Noeud*> nSinon)
 : m_noeuds(noeuds), m_nSinon(nSinon) {}
 
